@@ -2,7 +2,7 @@
 
 Getting back into screeps.
 
-Baseline AI, still working in offense/defense.
+Baseline AI, still working on offense/defense.
 
 For now, no resources besides energy are harvested. 
 Will work in other resources later.
