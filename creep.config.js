@@ -257,26 +257,29 @@ module.exports.mechanic = {
 
 module.exports.infantry = {
 
+    //they're too slow.
+    //need to figure out a better division of energy.
+
     level: {
         1: {
             total: 3,
             requiredEnergy: 200,
-            body: [ATTACK,TOUGH,TOUGH,MOVE,MOVE]
+            body: [TOUGH,TOUGH,MOVE,MOVE,ATTACK]
         },
         2: {
             total: 3,
             requiredEnergy: 300,
-            body: [ATTACK,ATTACK,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE]
+            body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,ATTACK,ATTACK]
         },
         3: {
             total: 3,
             requiredEnergy: 400,
-            body: [ATTACK,ATTACK,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE]
+            body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK]
         },
         4: {
             total: 3,
             requiredEnergy: 500,
-            body: [ATTACK,ATTACK,ATTACK,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE]
+            body: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK]
         }
 
     } //level

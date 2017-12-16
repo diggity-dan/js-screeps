@@ -13,11 +13,52 @@ module.exports.run = function(room, currentPopulation){
     let hostiles = room.find(FIND_HOSTILE_CREEPS);
     let hostileSites = room.find(FIND_HOSTILE_CONSTRUCTION_SITES);
     let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
-    
-    //if nothing found, just return:
-    if(!hostiles[0] || !hostileSites[0] || !hostileStructures [0]) {
+    let hostile;
+
+    //try to take care of creeps 1st:
+    if(hostiles[0]){
+
+        hostiles.sort((a,b) => a.hits - b.hits);
+
+        //check for healers:
+        let healers = _.filter(hostiles, function(hostile){
+            if(hostile.getActiveBodyparts(HEAL) > 0) {
+                return hostile;
+            }
+        });
+
+        //check for ranged:
+        let ranged = _.filter(hostiles, function(hostile){
+            if(hostile.getActiveBodyparts(RANGED_ATTACK) > 0) {
+                return hostile;
+            }
+        }); 
+
+        //assign target:
+        if(healers[0]){
+            hostile = healers[0];    
+        } else if (ranged[0]){
+            hostile = ranged[0];
+        } else {
+            hostile = hostiles[0];
+        }
+        
+    }
+    //next take care of hostile construction sites:
+    else if (hostileSites[0]) {
+        hostileSites.sort((a,b) => a.hits - b.hits);
+        hostile = hostileSites[0];
+    }
+    //next take care of hostile structures:
+    else if (hostileStructures[0]){
+        hostileStructures.sort((a,b) => a.hits - b.hits);
+        hostile = hostileStructures[0];
+    }
+    else{
+        //nothing hostile, just return:
         return;
     }
+    
 
     //control the infantry population:
     popControl(room, 'infantry', currentPopulation);
@@ -35,12 +76,8 @@ module.exports.run = function(room, currentPopulation){
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
 
         //attack creeps:
-
-        //attack sites:
-
-        //attack structures:
-
-        
+        creepCommon.attack(creep, hostile);
+      
 
     } // for(let creep in infantry)
 

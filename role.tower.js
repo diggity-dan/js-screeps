@@ -16,8 +16,6 @@ module.exports.run = function(room, currentPopulation){
     }});
 
 
-    //console.log(JSON.stringify(towers));
-
     if(towers[0]){
 
         //get hostile creeps:
@@ -38,11 +36,13 @@ module.exports.run = function(room, currentPopulation){
             //attack
             if(enemies[0]){
                 towers[index].attack(enemies[0]);
+                return;
             } //if(enemies[0])
 
             //heal
             if(injured[0]){
                 towers[index].heal(injured[0]);
+                return;
             } // if(injured[0])
 
             //repair
@@ -50,6 +50,7 @@ module.exports.run = function(room, currentPopulation){
                 //only allow tower to use 1/2 energy for repairs:
                 if(towers[index].energy > (towers[index].energyCapacity / 2) ) {
                     towers[index].repair(damagedStuff[0]);
+                    return;
                 }
                 
             } //if(damagedStuff[0])
@@ -59,5 +60,4 @@ module.exports.run = function(room, currentPopulation){
 
     } // if(towers[0])
 
-    
 }; //run

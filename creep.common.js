@@ -302,7 +302,7 @@ module.exports.transferContainer = function(creep, resource){
             } //filter function
         });
 
-        targets.sort((a,b) => a.store[resource] - b.store[resource] );
+        targets.sort((a,b) => b.store[resource] - a.store[resource] );
 
 
         if(targets.length > 0) {
@@ -472,21 +472,125 @@ module.exports.withdraw = function(creep, resource, container = undefined){
                 } //filter function
             });
 
-            //sort by most resource:
-            targets.sort((a,b) => b.store[resource] - a.store[resource] );
+            if(targets[0]){
+                //sort by most resource:
+                targets.sort((a,b) => b.store[resource] - a.store[resource] );
 
-            //set the container:
-            container = targets[0];
+                //set the container:
+                container = targets[0];
 
-        } //if(!container)
+            } else {
+
+                creep.memory.job = 'unemployed';
+
+            }
 
 
+        } else {
+
+            //ensure the container passed in has resources:
+            if(container.store[resource] === 0){
+                creep.memory.job = 'unemployed';
+            }
+
+        }// if/else(!container)
+
+        //finally withdraw:
         if(creep.withdraw(container, resource) == ERR_NOT_IN_RANGE) {
             creep.moveTo(container, {visualizePathStyle: {stroke: '#ffffff'}});
         }
-
 
     } // if(creep.memory.job === 'withdraw')
     
     
 } //withdraw
+
+module.exports.attack = function(creep, hostile = undefined){
+
+    //set a target if one wasn't passed in:
+    if(!hostile){
+
+        let hostiles = room.find(FIND_HOSTILE_CREEPS);
+        let hostileSites = room.find(FIND_HOSTILE_CONSTRUCTION_SITES);
+        let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
+
+        //try to take care of creeps 1st:
+        if(hostiles[0]){
+            
+            hostiles.sort((a,b) => a.hits - b.hits);
+            
+            //check for healers:
+            let healers = _.filter(hostiles, function(hostile){
+                if(hostile.getActiveBodyparts(HEAL) > 0) {
+                    return hostile;
+                }
+            });
+    
+            //check for ranged:
+            let ranged = _.filter(hostiles, function(hostile){
+                if(hostile.getActiveBodyparts(RANGED_ATTACK) > 0) {
+                    return hostile;
+                }
+            }); 
+    
+            //assign target:
+            if(healers[0]){
+                hostile = healers[0];    
+            } else if (ranged[0]){
+                hostile = ranged[0];
+            } else {
+                hostile = hostiles[0];
+            }
+
+
+        }
+        //next take care of hostile construction sites:
+        else if (hostileSites[0]) {
+            hostileSites.sort((a,b) => a.hits - b.hits);
+            hostile = hostileSites[0];
+        }
+        //next take care of hostile structures:
+        else if (hostileStructures[0]){
+            hostileStructures.sort((a,b) => a.hits - b.hits);
+            hostile = hostileStructures[0];
+        }
+
+    } // if(!hostile)
+
+
+    //turn on attack:
+    if(creep.memory.job === 'unemployed' && hostile){
+        creep.memory.job = 'attack';
+        creep.say('attack');
+    }
+
+    //turn off attack:
+    if(creep.memory.job === 'attack' && !hostile){
+        creep.memory.job = 'unemployed';
+        creep.say('attack');
+    }
+
+
+    //run attack:
+    if(creep.memory.job === 'attack'){
+
+        //if ranged:
+        if(creep.getActiveBodyparts(RANGED_ATTACK) > 0){
+
+            if(creep.rangedAttack(hostile) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(hostile);
+            }
+
+        } else {
+
+            //going for melee:
+            if(creep.attack(hostile) == ERR_NOT_IN_RANGE){
+                creep.moveTo(hostile);
+            }
+
+        } // if/else(creep.getActiveBodyparts(RANGED_ATTACK) > 0)
+
+
+    } // if(creep.memory.job === 'attack')
+
+}; //attack

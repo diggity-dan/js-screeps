@@ -12,14 +12,15 @@ module.exports.run = function(room, currentPopulation){
     //control the mechanic population:
     popControl(room, 'mechanic', currentPopulation);
 
-
     //we have mechanics now, so tell them to do something:
     let mechanics = _.filter(Game.creeps, (creep) => creep.memory.role === 'mechanic' && creep.room.name === room.name);
 
     for(let index in mechanics){
 
+
         //store current creep (for ease):
         let creep = mechanics[index];
+        
 
         //ensure creep has a job property in memory:
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
