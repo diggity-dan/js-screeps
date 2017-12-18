@@ -25,20 +25,8 @@ module.exports.run = function(room, currentPopulation){
         //ensure creep has a job property in memory:
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
 
-
-        //check if there are containers to use:
-        let targets = creep.room.find(FIND_STRUCTURES, {
-            filter: function(structure){
-                if (structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0){
-                    return structure;
-                }
-            } //filter function
-        });
-
-        //if so, get energy from containers:
-        if(targets[0]){
-            creepCommon.withdraw(creep, RESOURCE_ENERGY, targets[0]);
-        }
+        //get energy from containers
+        creepCommon.withdraw(creep, RESOURCE_ENERGY);
 
         //no containers, so find dropped resources 1st (they decay over time):
         creepCommon.scavenge(creep);
@@ -46,21 +34,11 @@ module.exports.run = function(room, currentPopulation){
         //nothing to scavenge, so get some energy:
         creepCommon.harvest(creep);
 
-        //If there are towers, just transfer energy to tower.:
-        let towers = room.find(FIND_MY_STRUCTURES, {filter: function(structure){
-            return structure.structureType === STRUCTURE_TOWER;
-        }});
+        //transfer energy to tower:
+        creepCommon.transferTower(creep);
 
-        if(towers[0]){
-
-            //transfer energy to tower:
-            creepCommon.transferTower(creep);
-
-        } else {
-
-            //repair stuff:
-            creepCommon.repair(creep);
-        }
+        //repair stuff:
+        creepCommon.repair(creep);
 
         // nothing else to do, so upgrade controller:
         creepCommon.upgrade(creep);

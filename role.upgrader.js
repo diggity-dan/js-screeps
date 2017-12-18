@@ -24,20 +24,9 @@ module.exports.run = function(room, currentPopulation){
         //ensure creep has a job property in memory:
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
 
-        //check if there are containers to use:
-        let targets = creep.room.find(FIND_STRUCTURES, {
-            filter: function(structure){
-                if (structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0){
-                    return structure;
-                }
-            } //filter function
-        });
-
-        //if so, get energy from containers:
-        if(targets[0]){
-            creepCommon.withdraw(creep, RESOURCE_ENERGY, targets[0]);
-        }
-
+        //get energy from containers:
+        creepCommon.withdraw(creep, RESOURCE_ENERGY);
+        
         //find dropped resources 1st (they decay over time):
         creepCommon.scavenge(creep);
 
