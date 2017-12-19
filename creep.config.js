@@ -55,22 +55,22 @@ module.exports.harvester = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
@@ -88,17 +88,17 @@ module.exports.upgrader = {
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
@@ -111,22 +111,22 @@ module.exports.builder = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
@@ -152,22 +152,22 @@ module.exports.mechanic = {
     
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }

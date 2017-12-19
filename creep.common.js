@@ -306,7 +306,8 @@ module.exports.transferContainer = function(creep, resource){
         //find some targets that are missing energy:
         let targets = creep.room.find(FIND_STRUCTURES, {
             filter: function(structure){
-                if (structure.structureType === STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity){
+                if ( (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE) 
+                        && _.sum(structure.store) < structure.storeCapacity){
                     return structure;
                 }
             } //filter function
