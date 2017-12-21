@@ -33,7 +33,7 @@ module.exports.run = function(room, currentPopulation){
         //transfer energy:
         creepCommon.transfer(creep);
 
-        //transfer container:
+        //transfer container/storage:
         creepCommon.transferContainer(creep, RESOURCE_ENERGY);
         
         //transfer energy to tower:

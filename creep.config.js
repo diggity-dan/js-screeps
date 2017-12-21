@@ -8,45 +8,30 @@ module.exports.omnicreep = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
-            requiredEnergy: 350,
-            body: [WORK,CARRY,CARRY,MOVE,MOVE,MOVE]
+            total: 3,
+            requiredEnergy: 400,
+            roomCapacity: 500,
+            body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
-            requiredEnergy: 400,
-            body: [WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
-        },
-        4: {
-            total: 5,
-            requiredEnergy: 450,
-            body: [WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
-        },
-        5: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
-        6: {
-            total: 5,
+        4: {
+            total: 3,
             requiredEnergy: 600,
-            body: [WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
-        },
-        7: {
-            total: 5,
-            requiredEnergy: 700,
-            body: [WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
-        },
-        8: {
-            total: 5,
-            requiredEnergy: 800,
-            body: [WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
-        }    
+            roomCapacity: 100000000,
+            body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
+        }
+
     } //level
 
 }; //omnicreep
@@ -57,21 +42,25 @@ module.exports.harvester = {
         1: {
             total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
             total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
             total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
             total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
 
@@ -83,23 +72,27 @@ module.exports.upgrader = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
             total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
             total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
             total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
 
@@ -113,25 +106,29 @@ module.exports.builder = {
         1: {
             total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
             total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
             total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
             total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
 
-    } //level   
+    } //level 
 
 }; //builder
 
@@ -141,6 +138,7 @@ module.exports.extractor = {
         1: {
             total: 2,
             requiredEnergy: 550,
+            roomCapacity: 100000000,
             body: [WORK,WORK,WORK,WORK,WORK,MOVE]
         }
              
@@ -154,21 +152,25 @@ module.exports.mechanic = {
         1: {
             total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
             total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
             total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
             total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
 
@@ -185,21 +187,25 @@ module.exports.infantry = {
         1: {
             total: 3,
             requiredEnergy: 200,
+            roomCapacity: 300,
             body: [TOUGH,TOUGH,MOVE,MOVE,ATTACK]
         },
         2: {
             total: 3,
             requiredEnergy: 300,
+            roomCapacity: 400,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,ATTACK,ATTACK]
         },
         3: {
             total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK]
         },
         4: {
             total: 3,
             requiredEnergy: 500,
+            roomCapacity: 100000000,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK]
         }
 
@@ -211,27 +217,31 @@ module.exports.medic = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
 
-    } //level    
+    } //level  
 
 }; //medic
 
@@ -239,26 +249,30 @@ module.exports.artillery = {
 
     level: {
         1: {
-            total: 3,
+            total: 5,
             requiredEnergy: 250,
+            roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
         },
         2: {
-            total: 5,
+            total: 3,
             requiredEnergy: 400,
+            roomCapacity: 500,
             body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
-            total: 5,
+            total: 3,
             requiredEnergy: 500,
+            roomCapacity: 600,
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 5,
+            total: 3,
             requiredEnergy: 600,
+            roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
         }
-            
-    } //level    
+
+    } //level   
 
 }; //artillery

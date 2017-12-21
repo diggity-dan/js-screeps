@@ -17,11 +17,10 @@ const infantry      = require('role.infantry');
 
 module.exports.loop = function(){
 
-    //clean up creep memory:
+    //clean up old creep memory:
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name); 
         }
     }
 

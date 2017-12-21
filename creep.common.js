@@ -477,7 +477,8 @@ module.exports.withdraw = function(creep, resource, container = undefined){
             //find containers with energy:
             let targets = creep.room.find(FIND_STRUCTURES, {
                 filter: function(structure){
-                    if (structure.structureType === STRUCTURE_CONTAINER && structure.store[resource] > 0){
+                    if ( (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE) 
+                        && structure.store[resource] > 0){
                         return structure;
                     }
                 } //filter function

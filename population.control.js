@@ -19,37 +19,41 @@ module.exports = function(room, role, currentPopulation){
     let _creepObj = new Object();
 
     let _config = creepConfig[role];
-    let _highLevel = 1
+    let _highLevel = 0;
 
     //loop through the required energy for the role:
     for(let index in _config.level){
 
-        if(room.energyAvailable >= _config.level[index].requiredEnergy){
+        if(room.energyAvailable >= _config.level[index].requiredEnergy && room.energyCapacityAvailable <= _config.level[index].roomCapacity){
             _highLevel = index;
         }
 
     } // for(let index in creepConfig[role])
 
+    //ensure we were able to set a level:
+    if(_highLevel > 0){
 
-    //ensure there's at least one harvester:
-    if(currentPopulation['harvester'] === undefined){
+        //ensure there's at least one harvester:
+        if(currentPopulation['harvester'] === undefined){
 
-        _creepObj.name = 'harvester-' + Game.time;
-        _creepObj.body = creepConfig.harvester.level[_highLevel].body;
-        _creepObj.memory = {role: 'harvester', source: _source.id};
+            _creepObj.name = 'harvester-' + Game.time;
+            _creepObj.body = creepConfig.harvester.level[_highLevel].body;
+            _creepObj.memory = {role: 'harvester', source: _source.id};
 
-    } else {
+        } else {
 
-        //population control on all other creeps:
-        if(currentPopulation[role] === undefined || currentPopulation[role] < _config.level[_highLevel].total) {
-            
-            _creepObj.name = role + '-' + Game.time;
-            _creepObj.body = _config.level[_highLevel].body;
-            _creepObj.memory = {role: role, source: _source.id};
-            
-        } // if(currentPopulation['role'] === undefined...)
+            //population control on all other creeps:
+            if(currentPopulation[role] === undefined || currentPopulation[role] < _config.level[_highLevel].total) {
+                
+                _creepObj.name = role + '-' + Game.time;
+                _creepObj.body = _config.level[_highLevel].body;
+                _creepObj.memory = {role: role, source: _source.id};
+                
+            } // if(currentPopulation['role'] === undefined...)
 
-    } // if/else(currentPopulation['harvester'] === undefined)
+        } // if/else(currentPopulation['harvester'] === undefined)
+
+    } // if(_highLevel > 0)
 
 
     //send the data to the spawn factory:

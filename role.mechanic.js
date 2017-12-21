@@ -25,7 +25,7 @@ module.exports.run = function(room, currentPopulation){
         //ensure creep has a job property in memory:
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
 
-        //get energy from containers
+        //get energy from containers/storage:
         creepCommon.withdraw(creep, RESOURCE_ENERGY);
 
         //no containers, so find dropped resources 1st (they decay over time):
