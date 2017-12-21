@@ -249,30 +249,30 @@ module.exports.artillery = {
 
     level: {
         1: {
-            total: 5,
-            requiredEnergy: 250,
-            roomCapacity: 400,
-            body: [WORK,CARRY,MOVE,MOVE]
+            total: 3,
+            requiredEnergy: 200,
+            roomCapacity: 300,
+            body: [MOVE,RANGED_ATTACK]
         },
         2: {
             total: 3,
             requiredEnergy: 400,
-            roomCapacity: 500,
-            body: [WORK,WORK,CARRY,MOVE,MOVE,MOVE]
+            roomCapacity: 550,
+            body: [MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK]
         },
         3: {
             total: 3,
-            requiredEnergy: 500,
-            roomCapacity: 600,
-            body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+            requiredEnergy: 600,
+            roomCapacity: 750,
+            body: [MOVE,MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK]
         },
         4: {
             total: 3,
-            requiredEnergy: 600,
+            requiredEnergy: 800,
             roomCapacity: 100000000,
-            body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
+            body: [MOVE,MOVE,MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK]
         }
 
-    } //level   
+    } //level  
 
 }; //artillery

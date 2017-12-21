@@ -522,9 +522,9 @@ module.exports.attack = function(creep, hostile = undefined){
     //set a target if one wasn't passed in:
     if(!hostile){
 
-        let hostiles = room.find(FIND_HOSTILE_CREEPS);
-        let hostileSites = room.find(FIND_HOSTILE_CONSTRUCTION_SITES);
-        let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
+        let hostiles = creep.room.find(FIND_HOSTILE_CREEPS);
+        let hostileSites = creep.room.find(FIND_HOSTILE_CONSTRUCTION_SITES);
+        let hostileStructures = creep.room.find(FIND_HOSTILE_STRUCTURES);
 
         //try to take care of creeps 1st:
         if(hostiles[0]){
@@ -547,10 +547,13 @@ module.exports.attack = function(creep, hostile = undefined){
     
             //assign target:
             if(healers[0]){
+                // kill heals 1st
                 hostile = healers[0];    
             } else if (ranged[0]){
+                // then ranged
                 hostile = ranged[0];
             } else {
+                // then melee:
                 hostile = hostiles[0];
             }
 
@@ -589,6 +592,10 @@ module.exports.attack = function(creep, hostile = undefined){
         //if ranged:
         if(creep.getActiveBodyparts(RANGED_ATTACK) > 0){
 
+            //ensure to kite creeps:
+            module.exports.kite(creep, hostile);
+
+            //attack, move closer if too far away:
             if(creep.rangedAttack(hostile) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(hostile);
             }
@@ -609,90 +616,67 @@ module.exports.attack = function(creep, hostile = undefined){
 
 module.exports.kite = function(creep, hostile = undefined){
 
-    //set a target if one wasn't passed in:
+    //return if no hostile has been passed.
+    //this is to prevent erratic kiting of different hostiles.
+    //this method is intended to be called by other methods, like attack.
     if(!hostile){
-
-        let hostiles = room.find(FIND_HOSTILE_CREEPS);
-        let hostileSites = room.find(FIND_HOSTILE_CONSTRUCTION_SITES);
-        let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
-
-        //try to take care of creeps 1st:
-        if(hostiles[0]){
-            
-            hostiles.sort((a,b) => a.hits - b.hits);
-            
-            //check for healers:
-            let healers = _.filter(hostiles, function(hostile){
-                if(hostile.getActiveBodyparts(HEAL) > 0) {
-                    return hostile;
-                }
-            });
-    
-            //check for ranged:
-            let ranged = _.filter(hostiles, function(hostile){
-                if(hostile.getActiveBodyparts(RANGED_ATTACK) > 0) {
-                    return hostile;
-                }
-            }); 
-    
-            //assign target:
-            if(healers[0]){
-                hostile = healers[0];    
-            } else if (ranged[0]){
-                hostile = ranged[0];
-            } else {
-                hostile = hostiles[0];
-            }
-
-
-        }
-        //next take care of hostile construction sites:
-        else if (hostileSites[0]) {
-            hostileSites.sort((a,b) => a.hits - b.hits);
-            hostile = hostileSites[0];
-        }
-        //next take care of hostile structures:
-        else if (hostileStructures[0]){
-            hostileStructures.sort((a,b) => a.hits - b.hits);
-            hostile = hostileStructures[0];
-        }
-
+        return;
     } // if(!hostile)
 
 
-    //turn on attack:
-    if(creep.memory.job === 'unemployed' && hostile){
-        creep.memory.job = 'attack';
-        creep.say('attack');
-    }
+    console.log('trying to kite');
 
-    //turn off attack:
-    if(creep.memory.job === 'attack' && !hostile){
-        creep.memory.job = 'unemployed';
-        creep.say('attack');
-    }
+    //kiting doesn't require any memory.job settings, this should be taken care of
+    //by the calling method.
 
+    //run kite:
+    const range = creep.pos.getRangeTo(hostile);
+    const targetChange = (3 - range);
 
-    //run attack:
-    if(creep.memory.job === 'attack'){
+    if(range < 3) {
 
-        //if ranged:
-        if(creep.getActiveBodyparts(RANGED_ATTACK) > 0){
+        //move the creep.
+        let origPos = creep.pos;
+        let newPos = creep.pos;
+        let returnVal;
 
-            if(creep.rangedAttack(hostile) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(hostile);
-            }
+        //try moving current x minus
+        newPos.x = (origPos.x -= targetChange);
+        returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
 
-        } else {
+        console.log('minus X return: ' + returnVal);
 
-            //going for melee:
-            if(creep.attack(hostile) == ERR_NOT_IN_RANGE){
-                creep.moveTo(hostile);
-            }
+        //try moving current y minus
+        newPos.x = origPos.x;
+        newPos.y = (origPos.y -= targetChange);
 
-        } // if/else(creep.getActiveBodyparts(RANGED_ATTACK) > 0)
+        if(returnVal !== OK) {
+            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
 
+            console.log('minus Y return: ' + returnVal);
+        }
 
-    } // if(creep.memory.job === 'attack')
+        //try moving current x plus
+        newPos.y = origPos.y;
+        newPos.x = (origPos.x += targetChange);
+
+        if(returnVal !== OK) {
+            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
+
+            console.log('plus X return: ' + returnVal);
+        }
+
+        //try moving current y plus
+        newPos.x = origPos.x;
+        newPos.y = (origPos.y += targetChange);
+        
+        if(returnVal !== OK) {
+            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
+
+            console.log('plus Y return: ' + returnVal);
+        }
+
+    } // if(range < 3)
+
 
 }; //kite

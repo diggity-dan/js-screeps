@@ -11,6 +11,7 @@ const extractor     = require('role.extractor');
 const tower         = require('role.tower');
 const mechanic      = require('role.mechanic');
 const infantry      = require('role.infantry');
+const artillery     = require('role.artillery');
 
 
 //main loop:
@@ -59,7 +60,10 @@ module.exports.loop = function(){
             mechanic.run(_currentRoom, _populationData);
 
             //infantry:
-            infantry.run(_currentRoom, _populationData);
+            //infantry.run(_currentRoom, _populationData);
+
+            //artillery:
+            artillery.run(_currentRoom, _populationData);
 
         }
 

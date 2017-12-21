@@ -21,18 +21,17 @@ module.exports.run = function(room, currentPopulation){
         return;
     }
     
+    //control the artillery population:
+    popControl(room, 'artillery', currentPopulation);
 
-    //control the infantry population:
-    popControl(room, 'infantry', currentPopulation);
+    //we have artillery now, so tell them to do something:
+    let artillery = _.filter(Game.creeps, (creep) => creep.memory.role === 'artillery' && creep.room.name === room.name);
 
-    //we have infantry now, so tell them to do something:
-    let infantry = _.filter(Game.creeps, (creep) => creep.memory.role === 'infantry' && creep.room.name === room.name);
-
-
-    for(let index in infantry){
+    //run the artillery:
+    for(let index in artillery){
 
         //store current creep (for ease):
-        let creep = infantry[index];
+        let creep = artillery[index];
 
         //ensure creep has a job property in memory:
         if(!creep.memory.job) {creep.memory.job = 'unemployed';}
@@ -41,7 +40,7 @@ module.exports.run = function(room, currentPopulation){
         creepCommon.attack(creep);
       
 
-    } // for(let creep in infantry)
+    } // for(let creep in artillery)
 
 
 }; //module.exports.run
