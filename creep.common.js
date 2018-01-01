@@ -10,6 +10,34 @@
 
 //export stuff:
 
+module.exports.getCostMatrix = function(room){
+
+    if(!room){return;}
+
+    let costs = new PathFinder.CostMatrix;
+
+    //set creep cost:
+    room.find(FIND_CREEPS).forEach(function(creep) {
+        costs.set(creep.pos.x, creep.pos.y, 255);
+    });
+
+    //set structure cost:
+    room.find(FIND_STRUCTURES).forEach(function(struct) {
+        if (struct.structureType === STRUCTURE_ROAD) {
+            // Favor roads over plain tiles
+            costs.set(struct.pos.x, struct.pos.y, 1);
+        } 
+        else if (struct.structureType !== STRUCTURE_CONTAINER && (struct.structureType !== STRUCTURE_RAMPART || !struct.my) ) {
+            // Can't walk through non-walkable buildings
+            costs.set(struct.pos.x, struct.pos.y, 255);
+        }
+    });
+
+    //return the matrix:
+    return costs;
+
+}; //getCostMatrix
+
 module.exports.checkPopulation = function(room){
 
     //using the supplied room, return creep data.
@@ -623,58 +651,47 @@ module.exports.kite = function(creep, hostile = undefined){
         return;
     } // if(!hostile)
 
-
-    console.log('trying to kite');
+    //get room context:
+    let _thisRoom = creep.room.name;
 
     //kiting doesn't require any memory.job settings, this should be taken care of
     //by the calling method.
 
-    //run kite:
     const range = creep.pos.getRangeTo(hostile);
-    const targetChange = (3 - range);
+    
+    /*
+    //direction constants:
+    TOP
+    TOP_RIGHT
+    RIGHT
+    BOTTOM_RIGHT
+    BOTTOM
+    BOTTOM_LEFT
+    LEFT
+    TOP_LEFT
+    */
 
-    if(range < 3) {
+    if(range <= 3) {
 
-        //move the creep.
-        let origPos = creep.pos;
-        let newPos = creep.pos;
-        let returnVal;
+        //set up a new pathfinder:
+        let fleePath = PathFinder.search(creep.pos, {pos: hostile.pos, range: 4}, {flee: true, maxRooms: 1, roomCallback: function(_thisRoom){
 
-        //try moving current x minus
-        newPos.x = (origPos.x -= targetChange);
-        returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
+            //callback doesn't allow passing a room object. Need to build it here:
+            let room = Game.rooms[_thisRoom];
 
-        console.log('minus X return: ' + returnVal);
+            //get the cost matrix from the getCostMatrix function:
+            let costs = module.exports.getCostMatrix(room);
 
-        //try moving current y minus
-        newPos.x = origPos.x;
-        newPos.y = (origPos.y -= targetChange);
+            //return the costs to pathfinder:
+            return costs;
 
-        if(returnVal !== OK) {
-            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
+        }});
 
-            console.log('minus Y return: ' + returnVal);
-        }
+        //get the 1st position from the path:
+        let pos = fleePath.path[0];
 
-        //try moving current x plus
-        newPos.y = origPos.y;
-        newPos.x = (origPos.x += targetChange);
-
-        if(returnVal !== OK) {
-            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
-
-            console.log('plus X return: ' + returnVal);
-        }
-
-        //try moving current y plus
-        newPos.x = origPos.x;
-        newPos.y = (origPos.y += targetChange);
-        
-        if(returnVal !== OK) {
-            returnVal = (creep.moveTo(newPos, {maxRooms: 1}) );
-
-            console.log('plus Y return: ' + returnVal);
-        }
+        //move the creep:
+        let returnVal = creep.moveTo(pos);
 
     } // if(range < 3)
 

@@ -57,13 +57,7 @@ module.exports.run = function(room, currentPopulation){
         //build stuff:
         creepCommon.build(creep, sites[0]);
 
-        //repair stuff:
-        creepCommon.repair(creep);
         
-        //upgrade controller:
-        creepCommon.upgrade(creep);
-
-
     } // for(let creep in builders)
 
 

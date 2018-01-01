@@ -19,7 +19,7 @@ const artillery     = require('role.artillery');
 module.exports.loop = function(){
 
     //clean up old creep memory:
-    for(var name in Memory.creeps) {
+    for(let name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
         }
@@ -34,6 +34,7 @@ module.exports.loop = function(){
         //why run more than once a tick?
         let _populationData = creepCommon.checkPopulation(_currentRoom);
 
+        
         //ensure at least one harvester is created 1st:
         if(_populationData['harvester'] === undefined){
 
@@ -60,14 +61,12 @@ module.exports.loop = function(){
             mechanic.run(_currentRoom, _populationData);
 
             //infantry:
-            //infantry.run(_currentRoom, _populationData);
+            infantry.run(_currentRoom, _populationData);
 
             //artillery:
             artillery.run(_currentRoom, _populationData);
 
         }
-
-
 
 
     } // for(let_room in Game.rooms)

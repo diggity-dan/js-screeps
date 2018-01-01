@@ -20,7 +20,7 @@ module.exports.run = function(room, currentPopulation){
         //nothing hostile, just return:
         return;
     }
-    
+
     //control the artillery population:
     popControl(room, 'artillery', currentPopulation);
 
@@ -38,6 +38,9 @@ module.exports.run = function(room, currentPopulation){
 
         //attack creeps:
         creepCommon.attack(creep);
+
+        //kite testing:
+        creepCommon.kite(creep, hostiles[0]);
       
 
     } // for(let creep in artillery)

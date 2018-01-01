@@ -8,7 +8,7 @@ module.exports.omnicreep = {
 
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -40,7 +40,7 @@ module.exports.harvester = {
 
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -72,7 +72,7 @@ module.exports.upgrader = {
 
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -104,7 +104,7 @@ module.exports.builder = {
 
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -150,7 +150,7 @@ module.exports.mechanic = {
     
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -185,25 +185,25 @@ module.exports.infantry = {
 
     level: {
         1: {
-            total: 3,
+            total: 1,
             requiredEnergy: 200,
             roomCapacity: 300,
             body: [TOUGH,TOUGH,MOVE,MOVE,ATTACK]
         },
         2: {
-            total: 3,
+            total: 1,
             requiredEnergy: 300,
             roomCapacity: 400,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,ATTACK,ATTACK]
         },
         3: {
-            total: 3,
+            total: 2,
             requiredEnergy: 400,
             roomCapacity: 500,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK]
         },
         4: {
-            total: 3,
+            total: 2,
             requiredEnergy: 500,
             roomCapacity: 100000000,
             body: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK]
@@ -217,7 +217,7 @@ module.exports.medic = {
 
     level: {
         1: {
-            total: 5,
+            total: 3,
             requiredEnergy: 250,
             roomCapacity: 400,
             body: [WORK,CARRY,MOVE,MOVE]
@@ -249,13 +249,13 @@ module.exports.artillery = {
 
     level: {
         1: {
-            total: 3,
+            total: 1,
             requiredEnergy: 200,
             roomCapacity: 300,
             body: [MOVE,RANGED_ATTACK]
         },
         2: {
-            total: 3,
+            total: 1,
             requiredEnergy: 400,
             roomCapacity: 550,
             body: [MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK]

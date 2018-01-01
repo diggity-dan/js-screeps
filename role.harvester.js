@@ -15,7 +15,7 @@ module.exports.run = function(room, currentPopulation){
     //we have harvesters now, so tell them to do something:
     let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester' && creep.room.name === room.name);
 
-
+    //control the harvesters:
     for(let index in harvesters){
 
         //store current creep (for ease):
