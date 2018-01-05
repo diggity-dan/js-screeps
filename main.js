@@ -3,7 +3,7 @@
 
 
 //require stuff:
-const creepCommon   = require('creep.common');
+const popControl    = require('population.control');
 const harvester     = require('role.harvester');
 const upgrader      = require('role.upgrader');
 const builder       = require('role.builder');
@@ -12,6 +12,7 @@ const tower         = require('role.tower');
 const mechanic      = require('role.mechanic');
 const infantry      = require('role.infantry');
 const artillery     = require('role.artillery');
+const medic         = require('role.medic');
 
 
 //main loop:
@@ -32,10 +33,10 @@ module.exports.loop = function(){
 
         //run a population check.
         //why run more than once a tick?
-        let _populationData = creepCommon.checkPopulation(_currentRoom);
+        let _populationData = popControl.checkPopulation(_currentRoom);
 
         
-        //ensure at least one harvester is created 1st:
+        //ensure at least one harvester is always present:
         if(_populationData['harvester'] === undefined){
 
             harvester.run(_currentRoom, _populationData);
@@ -65,6 +66,9 @@ module.exports.loop = function(){
 
             //artillery:
             artillery.run(_currentRoom, _populationData);
+
+            //medic:
+            medic.run(_currentRoom, _populationData);
 
         }
 

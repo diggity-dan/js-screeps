@@ -33,15 +33,15 @@ module.exports.run = function(room, currentPopulation){
         //loop towers:
         for(let index in towers){
 
-            //attack
-            //if(enemies[0]){
-                //towers[index].attack(enemies[0]);
-            //} //if(enemies[0])
-
             //heal
             if(injured[0]){
                 towers[index].heal(injured[0]);
             } // if(injured[0])
+
+            //attack
+            if(enemies[0]){
+                towers[index].attack(enemies[0]);
+            } //if(enemies[0])
 
             //repair
             if(damagedStuff[0]){

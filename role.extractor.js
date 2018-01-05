@@ -10,7 +10,7 @@ const popControl    = require('population.control');
 module.exports.run = function(room, currentPopulation){
 
     //control the harvester population:
-    popControl(room, 'extractor', currentPopulation);
+    popControl.create(room, 'extractor', currentPopulation);
 
     //we have extractors now, so tell them to do something:
     let extractors = _.filter(Game.creeps, (creep) => creep.memory.role === 'extractor' && creep.room.name === room.name);

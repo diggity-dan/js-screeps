@@ -10,7 +10,7 @@ const popControl    = require('population.control');
 module.exports.run = function(room, currentPopulation){
 
     //control the mechanic population:
-    popControl(room, 'mechanic', currentPopulation);
+    popControl.create(room, 'mechanic', currentPopulation);
 
     //we have mechanics now, so tell them to do something:
     let mechanics = _.filter(Game.creeps, (creep) => creep.memory.role === 'mechanic' && creep.room.name === room.name);

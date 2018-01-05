@@ -10,7 +10,7 @@ const popControl    = require('population.control');
 module.exports.run = function(room, currentPopulation){
 
     //control the upgrader population:
-    popControl(room, 'upgrader', currentPopulation);
+    popControl.create(room, 'upgrader', currentPopulation);
 
 
     //we have upgraders now, so tell them to do something:

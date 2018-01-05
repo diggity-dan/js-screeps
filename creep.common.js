@@ -38,49 +38,6 @@ module.exports.getCostMatrix = function(room){
 
 }; //getCostMatrix
 
-module.exports.checkPopulation = function(room){
-
-    //using the supplied room, return creep data.
-
-    //set up some stuff:
-    let _returnObj = new Object();
-    let _creepList = _.filter(Game.creeps, (creep) => creep.room === room);
-
-    //loop all creeps for this room:
-    for(let index in _creepList){
-
-        let _currentRole = _creepList[index].memory.role;
-
-        if(_returnObj[_currentRole]){
-            _returnObj[_currentRole] += 1;
-
-        } else {
-            _returnObj[_currentRole] = 1;
-
-        } // if/else(_returnObj[_currentRole])      
-
-    } // for(let index in _creepList)
-
-    //done looping creeps, return data.
-    return _returnObj;
-
-}; //checkPopulation
-
-module.exports.getSource = function(room){
-
-    //return source with the most energy.
-
-    //list of current sources:
-    let sources = room.find(FIND_SOURCES);
-
-    //sort
-    sources.sort((a,b) => b.energy - a.energy);
-    
-    //return
-    return sources[0];
-
-}; //getSource
-
 module.exports.scavenge = function(creep){
 
     //turn on scavenge, if creep has some energy capacity:
@@ -234,6 +191,11 @@ module.exports.build = function(creep, constructionSite = undefined){
 
 module.exports.transfer = function(creep, priority = []){
     
+    //improve transfer by checking memory for existing
+    //transfer targets assigned to other creeps.
+    //one way to do this would be using a global memory object.
+    //would just need to be a list of objectID's
+
     //structure priority, set tp default if nothing passed in:
     if(!priority.length){
         let priority = [STRUCTURE_SPAWN,STRUCTURE_EXTENSION];
@@ -610,7 +572,6 @@ module.exports.attack = function(creep, hostile = undefined){
     //turn off attack:
     if(creep.memory.job === 'attack' && !hostile){
         creep.memory.job = 'unemployed';
-        creep.say('attack');
     }
 
 
@@ -641,6 +602,102 @@ module.exports.attack = function(creep, hostile = undefined){
     } // if(creep.memory.job === 'attack')
 
 }; //attack
+
+module.exports.heal = function(creep, friendly = undefined){
+
+    //set a target if one wasn't passed in:
+    if(!friendly){
+
+        let friendlies = creep.room.find(FIND_MY_CREEPS, {
+            filter: function(friendly){
+                if(friendly.hits < friendly.hitsMax){return friendly;}
+            }
+        });
+
+        //try to take care of creeps 1st:
+        if(friendlies[0]){
+            
+            friendlies.sort(function(a,b){
+                let hitsA = a.hits;
+                let hitsB = b.hits;
+                let maxA = a.hitsMax;
+                let maxb = b.hitsMax;
+
+                if(hitsA < hitsB){return 1;}
+                if(hitsA > hitsB){return -1;}
+                if(maxA < maxb){return 1;}
+                if(maxA > maxb){return -1;}
+
+                return 0;
+            });
+            
+            //check for healers:
+            let healers = _.filter(friendlies, function(index){
+                if(index.getActiveBodyparts(HEAL) > 0) {
+                    return index;
+                }
+            });
+    
+            //check for ranged:
+            let ranged = _.filter(friendlies, function(index){
+                if(index.getActiveBodyparts(RANGED_ATTACK) > 0) {
+                    return index;
+                }
+            });
+    
+            //assign target:
+            if(healers[0]){
+                // heals 1st
+                friendly = healers[0];    
+            } else if (ranged[0]){
+                // the ranged
+                friendly = ranged[0];
+            } else {
+                // then melee:
+                friendly = friendlies[0];
+            }
+
+
+        } // if(friendlies[0])
+
+
+    } // if(!hostile)
+
+
+    //turn on attack:
+    if(creep.memory.job === 'unemployed' && friendly){
+        creep.memory.job = 'heal';
+        creep.say('heal');
+    }
+
+    //turn off attack:
+    if(creep.memory.job === 'heal' && !friendly){
+        creep.memory.job = 'unemployed';
+    }
+
+
+    //run heal:
+    if(creep.memory.job === 'heal'){
+
+        console.log('Trying to heal: ' + JSON.stringify(friendly.name));
+
+        //try to heal:
+        if(creep.heal(friendly) == ERR_NOT_IN_RANGE){
+
+            //now try to ranged heal:
+            if(creep.rangedHeal(friendly) == ERR_NOT_IN_RANGE){
+
+                //neither worked, so move closer:
+                creep.moveTo(friendly);
+
+            } // if(creep.rangedHeal...)
+            
+        } // if(creep.heal....)
+
+        
+    } // if(creep.memory.job === 'heal')
+
+}; //heal
 
 module.exports.kite = function(creep, hostile = undefined){
 
@@ -674,7 +731,7 @@ module.exports.kite = function(creep, hostile = undefined){
     if(range <= 3) {
 
         //set up a new pathfinder:
-        let fleePath = PathFinder.search(creep.pos, {pos: hostile.pos, range: 4}, {flee: true, maxRooms: 1, roomCallback: function(_thisRoom){
+        let fleePath = PathFinder.search(creep.pos, {pos: hostile.pos, range: 3}, {flee: true, maxRooms: 1, roomCallback: function(_thisRoom){
 
             //callback doesn't allow passing a room object. Need to build it here:
             let room = Game.rooms[_thisRoom];

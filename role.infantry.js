@@ -15,19 +15,16 @@ module.exports.run = function(room, currentPopulation){
     let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
     
 
-    if(!hostiles[0] && !hostileSites[0] && !hostileStructures[0]){
+    if(hostiles[0] || hostileSites[0] || hostileStructures[0]){
        
-        //nothing hostile, just return:
-        return;
+        //control the infantry population:
+        popControl.create(room, 'infantry', currentPopulation);
+
     }
     
 
-    //control the infantry population:
-    popControl(room, 'infantry', currentPopulation);
-
     //we have infantry now, so tell them to do something:
     let infantry = _.filter(Game.creeps, (creep) => creep.memory.role === 'infantry' && creep.room.name === room.name);
-
 
     for(let index in infantry){
 

@@ -4,16 +4,62 @@
 
 //require stuff:
 const spawnFactory  = require('spawn.factory');
-const creepCommon   = require('creep.common');
 const creepConfig   = require('creep.config');
 
 
-//exports:
+//private functions:
+let getSource = function(room){
 
-module.exports = function(room, role, currentPopulation){
+    //return source with the most energy.
+
+    //list of current sources:
+    let sources = room.find(FIND_SOURCES);
+
+    //sort
+    sources.sort((a,b) => b.energy - a.energy);
+    
+    //return
+    return sources[0];
+
+}; //getSource
+
+
+//
+//exports:
+//
+
+module.exports.checkPopulation = function(room){
+
+    //using the supplied room, return creep data.
+
+    //set up some stuff:
+    let _returnObj = new Object();
+    let _creepList = _.filter(Game.creeps, (creep) => creep.room === room);
+
+    //loop all creeps for this room:
+    for(let index in _creepList){
+
+        let _currentRole = _creepList[index].memory.role;
+
+        if(_returnObj[_currentRole]){
+            _returnObj[_currentRole] += 1;
+
+        } else {
+            _returnObj[_currentRole] = 1;
+
+        } // if/else(_returnObj[_currentRole])      
+
+    } // for(let index in _creepList)
+
+    //done looping creeps, return data.
+    return _returnObj;
+
+}; //checkPopulation
+
+module.exports.create = function(room, role, currentPopulation){
 
     //get best energy source to use:
-    let _source = creepCommon.getSource(room);
+    let _source = getSource(room);
 
     //blank creep object:
     let _creepObj = new Object();
@@ -33,25 +79,14 @@ module.exports = function(room, role, currentPopulation){
     //ensure we were able to set a level:
     if(_highLevel > 0){
 
-        //ensure there's at least one harvester:
-        if(currentPopulation['harvester'] === undefined){
-
-            _creepObj.name = 'harvester-' + Game.time;
-            _creepObj.body = creepConfig.harvester.level[_highLevel].body;
-            _creepObj.memory = {role: 'harvester', source: _source.id};
-
-        } else {
-
-            //population control on all other creeps:
-            if(currentPopulation[role] === undefined || currentPopulation[role] < _config.level[_highLevel].total) {
-                
-                _creepObj.name = role + '-' + Game.time;
-                _creepObj.body = _config.level[_highLevel].body;
-                _creepObj.memory = {role: role, source: _source.id};
-                
-            } // if(currentPopulation['role'] === undefined...)
-
-        } // if/else(currentPopulation['harvester'] === undefined)
+        //population control on all other creeps:
+        if(currentPopulation[role] === undefined || currentPopulation[role] < _config.level[_highLevel].total) {
+            
+            _creepObj.name = role + '-' + Game.time;
+            _creepObj.body = _config.level[_highLevel].body;
+            _creepObj.memory = {role: role, source: _source.id};
+            
+        } // if(currentPopulation['role'] === undefined...)
 
     } // if(_highLevel > 0)
 

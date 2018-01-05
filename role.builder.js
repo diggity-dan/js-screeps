@@ -12,7 +12,7 @@ module.exports.run = function(room, currentPopulation){
     let sites = room.find(FIND_MY_CONSTRUCTION_SITES);
     sites.sort((a,b) => b.progress - a.progress);
 
-    //we have builders now, so tell them to do something:
+    //get a list of builders:
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder' && creep.room.name === room.name);
 
     //check for construction sites, if none, just return:
@@ -33,7 +33,7 @@ module.exports.run = function(room, currentPopulation){
     
 
     //control the builder population:
-    popControl(room, 'builder', currentPopulation);
+    popControl.create(room, 'builder', currentPopulation);
 
     //run the builders:
     for(let index in builders){

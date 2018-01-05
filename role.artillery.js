@@ -15,14 +15,13 @@ module.exports.run = function(room, currentPopulation){
     let hostileStructures = room.find(FIND_HOSTILE_STRUCTURES);
     
 
-    if(!hostiles[0] && !hostileSites[0] && !hostileStructures[0]){
+    if(hostiles[0] || hostileSites[0] || hostileStructures[0]){
        
-        //nothing hostile, just return:
-        return;
+        //control the artillery population:
+        popControl.create(room, 'artillery', currentPopulation);
+
     }
 
-    //control the artillery population:
-    popControl(room, 'artillery', currentPopulation);
 
     //we have artillery now, so tell them to do something:
     let artillery = _.filter(Game.creeps, (creep) => creep.memory.role === 'artillery' && creep.room.name === room.name);
@@ -39,10 +38,7 @@ module.exports.run = function(room, currentPopulation){
         //attack creeps:
         creepCommon.attack(creep);
 
-        //kite testing:
-        creepCommon.kite(creep, hostiles[0]);
       
-
     } // for(let creep in artillery)
 
 
