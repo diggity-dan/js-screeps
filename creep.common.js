@@ -2,41 +2,12 @@
 'use strict';
 
 //require stuff:
-
+const pathCommon    = require('path.common'); 
 
 //TODO:
-//work in offensive/defensive creeps.
 
 
 //export stuff:
-
-module.exports.getCostMatrix = function(room){
-
-    if(!room){return;}
-
-    let costs = new PathFinder.CostMatrix;
-
-    //set creep cost:
-    room.find(FIND_CREEPS).forEach(function(creep) {
-        costs.set(creep.pos.x, creep.pos.y, 255);
-    });
-
-    //set structure cost:
-    room.find(FIND_STRUCTURES).forEach(function(struct) {
-        if (struct.structureType === STRUCTURE_ROAD) {
-            // Favor roads over plain tiles
-            costs.set(struct.pos.x, struct.pos.y, 1);
-        } 
-        else if (struct.structureType !== STRUCTURE_CONTAINER && (struct.structureType !== STRUCTURE_RAMPART || !struct.my) ) {
-            // Can't walk through non-walkable buildings
-            costs.set(struct.pos.x, struct.pos.y, 255);
-        }
-    });
-
-    //return the matrix:
-    return costs;
-
-}; //getCostMatrix
 
 module.exports.scavenge = function(creep){
 
@@ -737,7 +708,7 @@ module.exports.kite = function(creep, hostile = undefined){
             let room = Game.rooms[_thisRoom];
 
             //get the cost matrix from the getCostMatrix function:
-            let costs = module.exports.getCostMatrix(room);
+            let costs = pathCommon.getCostMatrix(room);
 
             //return the costs to pathfinder:
             return costs;

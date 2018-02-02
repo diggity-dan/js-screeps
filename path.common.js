@@ -38,4 +38,7 @@ module.exports.getCostMatrix = function(room){
     //use the matrix in other functions by:
     //let costs = PathFinder.CostMatrix.deserialize(room.memory.savedMatrix);
 
-};
+    //also return to the caller:
+    return costs;
+
+}; //getCostMatrix
