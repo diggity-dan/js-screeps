@@ -30,6 +30,9 @@ module.exports.run = function(room, currentPopulation){
 
         //heal creeps:
         creepCommon.heal(creep);
+
+        //rally:
+        creepCommon.rally(creep, "RallyPoint");
               
         
     } // for(let creep in medic)

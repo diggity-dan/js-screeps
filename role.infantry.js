@@ -37,6 +37,8 @@ module.exports.run = function(room, currentPopulation){
         //attack creeps:
         creepCommon.attack(creep);
       
+        //rally:
+        creepCommon.rally(creep, "RallyPoint");
 
     } // for(let creep in infantry)
 
