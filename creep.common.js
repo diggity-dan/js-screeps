@@ -725,3 +725,47 @@ module.exports.kite = function(creep, hostile = undefined){
 
 
 }; //kite
+
+module.exports.rally = function(creep, flagName){
+
+    //find the specified flag:
+    let flags = creep.room.find(FIND_FLAGS, {filter: {
+            name: flagName
+        }
+    });
+
+    //only run if the flag was found:
+    if(flags[0]){
+
+        //get the range to the flag:
+        const range = creep.pos.getRangeTo(flags[0]);
+        const acceptableRange = 3;
+      
+
+        //turn on rally:
+        if(creep.memory.job === 'unemployed' && flags[0] && acceptableRange !== range){
+            creep.memory.job = 'rally';
+            creep.say('rally');
+        }
+
+        //turn off rally:
+        if(creep.memory.job === 'rally' && range === acceptableRange){
+            creep.memory.job = 'unemployed';
+        }
+
+
+        //run rally:
+        if(creep.memory.job === 'rally'){
+        
+            //if the range is less than acceptable, move there:
+            if(acceptableRange < range) {
+
+                creep.moveTo(flags[0].pos, {range: 3, visualizePathStyle: {stroke: '#ffffff'}});
+                
+            } // if(range < acceptableRange)
+
+        } //if(creep.memory.job === 'rally')        
+
+    } // if(flags[0])
+
+}; //rally

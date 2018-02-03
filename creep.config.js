@@ -100,7 +100,7 @@ module.exports.harvester = {
             body: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         },
         4: {
-            total: 3,
+            total: 4,
             requiredEnergy: 600,
             roomCapacity: 100000000,
             body: [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
